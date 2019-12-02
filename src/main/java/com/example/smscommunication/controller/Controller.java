@@ -12,10 +12,10 @@ public class Controller {
   @Autowired private OTPCommunicationService otpCommunicationService;
 
   /**
-   * Calling Interface from -> selectGatewayAndSendOtp(). calling smsreqest take the input from
+   * Calling Interface from -> selectGatewayAndSendOtp(). calling sms request take the input from
    * frontend
    *
-   * @param smsRequest
+   * @param smsRequest take the data into frontend
    */
   @PostMapping(path = "/sms")
   public void selectGatewayAndSendOtp(@RequestBody SmsRequest smsRequest) {

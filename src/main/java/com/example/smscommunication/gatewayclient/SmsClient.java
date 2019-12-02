@@ -4,7 +4,7 @@ import com.example.smscommunication.dto.SmsRequest;
 
 public interface SmsClient {
 
-  int GatewayClient();
+  int gatewayClient();
 
-  boolean SendSms(SmsRequest smsRequest);
+  boolean sendSms(SmsRequest smsRequest);
 }

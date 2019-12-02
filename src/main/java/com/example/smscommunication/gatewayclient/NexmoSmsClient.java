@@ -16,7 +16,6 @@ import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Service;
 import java.util.Objects;
 
-/** @author */
 @Service
 @Component
 public class NexmoSmsClient implements SmsClient {
@@ -37,9 +36,13 @@ public class NexmoSmsClient implements SmsClient {
   @Value("${client.gateway.nexmo-brand-name}")
   private String brandname;
 
-  /** @return */
+  /**
+   * Get the code into GatewayClient.java
+   *
+   * @return the Nexmo code into CommunicationGatewayFactory.java
+   */
   @Override
-  public int GatewayClient() {
+  public int gatewayClient() {
     return GatewayClient.NEXMO.getCode();
   }
 
@@ -53,7 +56,7 @@ public class NexmoSmsClient implements SmsClient {
    *     (OTPCommunicationServiceImpl.java)
    */
   @Override
-  public boolean SendSms(final SmsRequest smsRequest) {
+  public boolean sendSms(final SmsRequest smsRequest) {
     LOG.trace("--> SendSms() > {}", smsRequest);
 
     boolean result = true;
@@ -81,7 +84,7 @@ public class NexmoSmsClient implements SmsClient {
         result = false;
       }
     } catch (NexmoClientException | InterruptedException e) {
-      LOG.error("Nexmo Exception is : {}", e);
+      LOG.error("Nexmo Exception is : {} ", e.getMessage(), e);
       Thread.currentThread().interrupt();
     }
     LOG.trace("<-- SendSms() > response : {}", result);

@@ -27,7 +27,6 @@ public class OTPCommunicationServiceImpl implements OTPCommunicationService {
    *     communicationGatewayFactory.java based on for loop. After call the SendSms() ->
    *     SmsClient.java Interface return the value stored into the boolean. After check the result
    *     is "true" break the loop. If result is "false" again loop will be repeat.
-   * @throws InterruptedException
    */
   @Override
   public void selectGatewayAndSendOtp(SmsRequest smsRequest){
@@ -36,7 +35,7 @@ public class OTPCommunicationServiceImpl implements OTPCommunicationService {
     for (Map.Entry<Integer, SmsClient> entrySet :
         communicationGatewayFactory.getGatewayMap().entrySet()) {
 
-      final boolean result = entrySet.getValue().SendSms(smsRequest);
+      final boolean result = entrySet.getValue().sendSms(smsRequest);
 
       LOG.debug(
           "-- selectGatewayAndSendOtp() > OTP delivery attempt using {} client. Delivery Status : {}",

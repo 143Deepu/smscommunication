@@ -17,10 +17,10 @@ public enum GatewayClient {
           .collect(Collectors.toMap(GatewayClient::getCode, Function.identity()));
 
   /**
-   * Create a constructor from enum's.
+   * Create a constructor from enum's parameters.
    *
-   * @param code
-   * @param type
+   * @param code is a variable
+   * @param type is a variable
    */
   GatewayClient(int code, String type) {
     this.code = code;

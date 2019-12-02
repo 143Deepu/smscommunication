@@ -12,7 +12,6 @@ import org.springframework.stereotype.Service;
 import java.net.URI;
 import java.util.Objects;
 
-/** @author */
 @Service
 public class TwilioSmsClient implements SmsClient {
   /** In this file any information,error and trace print into console using "LOG" object */
@@ -27,9 +26,13 @@ public class TwilioSmsClient implements SmsClient {
   @Value("${client.gateway.twilio-trail-number}")
   private String trailnumber;
 
-  /** @return */
+  /**
+   * Get the code into GatewayClient.java
+   *
+   * @return the Nexmo code into CommunicationGatewayFactory.java
+   */
   @Override
-  public int GatewayClient() {
+  public int gatewayClient() {
     return GatewayClient.TWILIO.getCode();
   }
   /**
@@ -42,7 +45,7 @@ public class TwilioSmsClient implements SmsClient {
    *     (OTPCommunicationServiceImpl.java)
    */
   @Override
-  public boolean SendSms(final SmsRequest smsRequest) {
+  public boolean sendSms(final SmsRequest smsRequest) {
     LOG.trace("--> SendSms() > {}", smsRequest);
 
     boolean result = true;
@@ -71,7 +74,7 @@ public class TwilioSmsClient implements SmsClient {
       }
 
     } catch (TwilioException | InterruptedException e) {
-      LOG.error("Twilio Exception is : {} ", e);
+      LOG.error("Twilio Exception is : {} ", e.getMessage(), e);
       Thread.currentThread().interrupt();
     }
     LOG.trace("<-- SendSms() > response : {}", result);
