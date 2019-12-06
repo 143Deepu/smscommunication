@@ -18,7 +18,7 @@ import java.util.Objects;
 
 @Service
 @Component
-public class NexmoSmsClient implements SmsClient {
+public class  NexmoSmsClient implements SmsClient {
   /** In this file any information,error and trace print into console using "LOG" object */
   private static final Logger LOG = LoggerFactory.getLogger(NexmoSmsClient.class);
 
@@ -33,8 +33,8 @@ public class NexmoSmsClient implements SmsClient {
   private long timeout;
 
   /** Take the Brand Name from Application.properties */
-  @Value("${client.gateway.nexmo-brand-name}")
-  private String brandname;
+  @Value("${client.gateway.nexmo-from-phonenumber}")
+  private String From;
 
   /**
    * Get the code into GatewayClient.java
@@ -62,7 +62,7 @@ public class NexmoSmsClient implements SmsClient {
     boolean result = true;
     try {
       String messageText = "Welcome To FullPlate!";
-      TextMessage message = new TextMessage(brandname, smsRequest.getPhoneNumber(), messageText);
+      TextMessage message = new TextMessage(From, smsRequest.getPhoneNumber(), messageText);
 
       final SmsSubmissionResponse response = nexmoClient.getSmsClient().submitMessage(message);
       if (response.getMessages().get(0).getStatus() == MessageStatus.OK) {

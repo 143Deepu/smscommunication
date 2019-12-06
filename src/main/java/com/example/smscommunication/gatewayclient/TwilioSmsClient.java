@@ -20,7 +20,7 @@ public class TwilioSmsClient implements SmsClient {
    * Take the value's from application.properties. if you not take the value application.properties
    * default value is given (${client.gateway.nexmo-timeout : 2500})
    */
-  @Value("${client.gateway.nexmo-timeout : 2500}")
+  @Value("${client.gateway.twilio-timeout : 2500}")
   private long timeout;
   /** Take the Trail-Number from Application.properties */
   @Value("${client.gateway.twilio-trail-number}")
@@ -61,6 +61,7 @@ public class TwilioSmsClient implements SmsClient {
       if (String.valueOf(message.getStatus()).equals("sent")
           || String.valueOf(message.getStatus()).equals("queued")
           || String.valueOf(message.getStatus()).equals("delivered")) {
+        LOG.info("twilio");
         if (Objects.isNull(message.getStatus())
             || String.valueOf(message.getStatus()).equals("failed")
             || String.valueOf(message.getStatus()).equals("undelivered")) {

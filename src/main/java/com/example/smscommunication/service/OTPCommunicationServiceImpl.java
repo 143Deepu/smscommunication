@@ -5,6 +5,7 @@ import com.example.smscommunication.dto.SmsRequest;
 import com.example.smscommunication.gatewayclient.CommunicationGatewayFactory;
 import com.example.smscommunication.gatewayclient.SmsClient;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Service;
 import org.slf4j.Logger;
@@ -19,6 +20,9 @@ public class OTPCommunicationServiceImpl implements OTPCommunicationService {
 
   /** Calling the CommunicationGatewayFactory */
   @Autowired private CommunicationGatewayFactory communicationGatewayFactory;
+  /** */
+  @Value("${number-of-attempts.sms : 3}")
+  private int numberofattempts;
 
   /**
    * This method is used to iterator purpose on "Twilio and Nexmo".
@@ -29,20 +33,28 @@ public class OTPCommunicationServiceImpl implements OTPCommunicationService {
    *     is "true" break the loop. If result is "false" again loop will be repeat.
    */
   @Override
-  public void selectGatewayAndSendOtp(SmsRequest smsRequest){
+  public void selectGatewayAndSendOtp(SmsRequest smsRequest) {
     LOG.trace("--> selectGatewayAndSendOtp() -- : {}", smsRequest);
-
+    int count = 0;
     for (Map.Entry<Integer, SmsClient> entrySet :
         communicationGatewayFactory.getGatewayMap().entrySet()) {
-
       final boolean result = entrySet.getValue().sendSms(smsRequest);
-
+      count++;
       LOG.debug(
           "-- selectGatewayAndSendOtp() > OTP delivery attempt using {} client. Delivery Status : {}",
           GatewayClient.valueOf(entrySet.getKey()),
           result);
-      if (result) break;
+      if (count < numberofattempts)
+      {
+        if (result) LOG.info("Break the condoction");
+        break;
+      }
+      else {
+        throw  new RuntimeException("Maximum Number of attemes are over.");
+      }
     }
+    LOG.info(String.valueOf(count));
+
     LOG.trace("<-- selectGatewayAndSendOtp()");
   }
 }
